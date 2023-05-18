@@ -19,13 +19,20 @@
 #include <time.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <netdb.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <math.h>
 #include <string.h>
 #include <fcntl.h>
 #include <termios.h>
 #include <signal.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
 
 char	callsign[20], output[21];
 int	qthalt, pid;
@@ -135,19 +142,13 @@ double elevation, azimuth;
 	/* This function sends Azimuth and Elevation data
 	   to an antenna tracker connected to the serial port */
 
-	int n, port;
-	char message[30]="\n";
+	char message[256]="\n";
 
-	port=antfd;
+	sprintf(message, "P %3.1f %3.1f\n", azimuth,elevation);
 
-	sprintf(message, "AZ%3.1f EL%3.1f \x0D\x0A", azimuth,elevation);
-	n=write(port,message,30);
+	fprintf(stderr,"%s",message);
+	write(antfd,message,sizeof(message));
 
-	if (n<0)
-	{
-		fprintf(stderr,"%c*** Error: Problem Writing To Antenna Port!\n",7);		kill(pid,1);
-		exit(-1);
-	}
 }
 
 void FindMoon(daynum)
@@ -342,28 +343,30 @@ double FindMoonRise()
 	return moonrise;
 }
 
+void usage()
+{
+		fprintf(stderr,"\n\t\t    --==[ MoonTracker v1.1.42 by KD2BD/AK4WQ ]==--\n");
+		fprintf(stderr,"\n\t\t\t   ...Available options...\n\n");
+		fprintf(stderr,"\t-h hostname (localhost)\n");
+		fprintf(stderr,"\t-p port (4533)\n");
+		fprintf(stderr,"\t-q alternate qth file (site.qth)\n\n");
+		//fprintf(stderr,"\nOnce started, MoonTracker spawns itself as a background process.\n\n"); 
+}
+
 int main(argc,argv)
 char argc, *argv[];
 {
-	char qthfile[80], serial_port[15], once_per_second=0, *env=NULL;
-	int x, y, z, antfd=-1, iel, iaz, oldaz=0, oldel=0;
+	char qthfile[80], rot_port[254], rot_hostname[254], once_per_second=0, *env=NULL;
+	int x, y, z, iel, iaz, oldaz=0, oldel=0;
 	unsigned sleeptime=0;
 	double daynum;
-	struct termios oldtty, newtty;
-
-	if (argc==1)
-	{
-		fprintf(stderr,"\n\t\t    --==[ MoonTracker v1.1 by KD2BD ]==--\n");
-		fprintf(stderr,"\n\t\t\t   ...Available options...\n\n");
-		fprintf(stderr,"\t-a serial port (/dev/ttyS0) -- sends data as it changes\n");
-		fprintf(stderr,"\t-a1 serial port (/dev/ttyS0) -- sends data at one-second intervals\n");
-		fprintf(stderr,"\t-q alternate qth file (site.qth)\n");
-		fprintf(stderr,"\nOnce started, MoonTracker spawns itself as a background process.\n\n"); 
-		exit(0);
-	}
+	int sockfd; 
+    	struct sockaddr_in servaddr;
+	struct hostent *server;
 
 	y=argc-1;
-	serial_port[0]=0;
+	rot_hostname[0]=0;
+	rot_port[0]=0;
 	env=getenv("HOME");
 	sprintf(qthfile,"%s/.predict/predict.qth",env);
 
@@ -378,56 +381,53 @@ char argc, *argv[];
 				strncpy(qthfile,argv[z],78);
 		}
 
-		if (strcmp(argv[x],"-a")==0)
+		if (strcmp(argv[x],"-h")==0)
 		{
 			z=x+1;
 			if (z<=y && argv[z][0] && argv[z][0]!='-')
-				strncpy(serial_port,argv[z],13);
+				strncpy(rot_hostname,argv[z],252);
 		}
 
-		if (strcmp(argv[x],"-a1")==0)
+		if (strcmp(argv[x],"-p")==0)
 		{
 			z=x+1;
 			if (z<=y && argv[z][0] && argv[z][0]!='-')
-			{
-				strncpy(serial_port,argv[z],13);
-				once_per_second=1;
-			}
+				strncpy(rot_port,argv[z],252);
+		}
+
+		if (strcmp(argv[x],"-v")==0)
+		{
+			usage();
+			exit(0);
 		}
 	}
 
-	if (serial_port[0]==0)
-	{
-		fprintf(stderr,"%c*** Error: Serial port not specified!\n",7);
-		exit(-1);
-	}
+	sockfd=socket(AF_INET, SOCK_STREAM, 0); 
 
-	antfd=open(serial_port, O_RDWR|O_NOCTTY);
-
-	if (antfd!=-1)
-	{
-		/* Set up serial port */
-
-		tcgetattr(antfd, &oldtty);
-		bzero(&newtty, sizeof(newtty));
-
-		/* 9600 baud, 8-bits, no parity,
-		   1-stop bit, no handshaking */
-
-		newtty.c_cflag=B9600|CS8|CLOCAL;
-		newtty.c_oflag=0;
-		newtty.c_lflag=0;
-
-		tcflush(antfd, TCIFLUSH);
-		tcsetattr(antfd, TCSANOW, &newtty);
-	}
+	if (sockfd==-1)
+	{ 
+	        printf("Socket creation failed...\n"); 
+		exit(0); 
+	} 
 
 	else
-	{
-		fprintf(stderr, "%c*** Error: Unable To Open Antenna Port\n",7);
-		exit(-1);
-	}
+	        printf("Socket successfully created!\n"); 
 
+	bzero(&servaddr, sizeof(servaddr)); 
+	servaddr.sin_family = AF_INET; 
+
+	if (rot_hostname[0]==0)
+		server=gethostbyname("localhost");
+	else 
+		server=gethostbyname(rot_hostname);
+
+	bcopy((char *)server->h_addr,(char*)&servaddr.sin_addr.s_addr, server->h_length);
+
+	if (rot_port[0]==0)
+		servaddr.sin_port=htons(4533); 
+	else
+		servaddr.sin_port=htons(strtol(rot_port,NULL,10)); 
+  
 	if (ReadQTH(qthfile)==0)
 	{
 		fprintf(stderr,"%c*** Error: QTH file \"%s\" could not be loaded!\n",7,qthfile);
@@ -437,52 +437,62 @@ char argc, *argv[];
 	moonrise=FindMoonRise();
 	daynum=CurrentDaynum();
 
-	if (!(pid=fork()))
-	{
-		while (1)
-		{
-			daynum=CurrentDaynum();
-			FindMoon(daynum);
+	FindMoon(daynum);
+	fprintf(stderr,"Current Moon Coordinates: %.2f%c%c Azimuth and %.2f%c%c Elevation\r\v",moon_az,194,176,moon_el,194,176);
 
-			if (moon_el<0.0)
-			{
-				/* Go to sleep until moon rise. */
+	FindMoon(moonrise);
+	fprintf(stderr,"Moon Rise on %s UTC at %.2f%c%c Azimuth\r\v",Daynum2String(moonrise),moon_az,194,176);
 
-				moonrise=FindMoonRise();
-
-				if (daynum<moonrise)
-				{
-					sleeptime=(unsigned)(86400.0*(moonrise-daynum));
-					sleep(sleeptime);
-				}
-			}
-
-			if (moon_el>=0.0 && antfd!=-1)
-			{
-				iaz=(int)rint(moon_az);
-				iel=(int)rint(moon_el);
-
-				if ((oldel!=iel || oldaz!=iaz) || (once_per_second))
-				{
-					TrackDataOut(antfd,(float)iel,(float)iaz);
-					oldel=iel;
-					oldaz=iaz;
-				}
-			}
-
-			if (once_per_second)
-				sleep (1);
-			else
-				sleep (60);
-		}
-	}
-
-	else
-	{
-		fprintf(stderr,"MoonTracker (pid %d) running on %s!\n",pid,serial_port);
-		if (daynum<moonrise)
-			fprintf(stderr,"MoonTracker will sleep until moonrise at: %s UTC\n",Daynum2String(moonrise));
-
+	if (connect(sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr))!=0)
+	{ 
+		printf("Connection with the server failed...\n"); 
 		exit(0);
 	}
+ 
+	else
+		printf("Connected to the server..\n"); 
+
+	//fprintf(stderr,"MoonTracker running on %s!\n",serial_port);
+
+	while (1)
+	{
+		daynum=CurrentDaynum();
+		FindMoon(daynum);
+
+		//fprintf(stderr,"Moon el:%f az:%f\r",moon_el,moon_az);
+
+		if (moon_el<0.0)
+		{
+			/* Go to sleep until moon rise. */
+
+			moonrise=FindMoonRise();
+
+			if (daynum<moonrise)
+			{
+				sleeptime=(unsigned)(86400.0*(moonrise-daynum));
+				sleep(sleeptime);
+			}
+		}
+
+		//if (moon_el>=0.0 && antfd!=-1)
+
+		if (moon_el>=0.0)
+		{
+			iaz=(int)rint(moon_az);
+			iel=(int)rint(moon_el);
+
+			if ((oldel!=iel || oldaz!=iaz) || (once_per_second))
+			{
+				TrackDataOut(sockfd,(float)iel,(float)iaz);
+				oldel=iel;
+				oldaz=iaz;
+			}
+		}
+
+		sleep (60);
+	}
+
+	close(sockfd);
+
+	return 0; 
 }

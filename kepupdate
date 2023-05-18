@@ -5,9 +5,9 @@
  
 dir=$HOME/.predict
 
-wget -qr www.celestrak.com/NORAD/elements/amateur.txt -O $dir/amateur.txt
-wget -qr www.celestrak.com/NORAD/elements/visual.txt -O $dir/visual.txt
-wget -qr www.celestrak.com/NORAD/elements/weather.txt -O $dir/weather.txt
+wget -qr https://www.amsat.org/tle/current/nasabare.txt -O $dir/amateur.txt
+wget -qr https://www.celestrak.com/NORAD/elements/visual.txt -O $dir/visual.txt
+wget -qr https://www.celestrak.com/NORAD/elements/weather.txt -O $dir/weather.txt
 
 cat $dir/amateur.txt $dir/visual.txt $dir/weather.txt > $dir/keps.tle
 

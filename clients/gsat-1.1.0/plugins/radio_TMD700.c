@@ -54,6 +54,8 @@ int plugin_open_rig( char * config )
     fprintf(stderr,"TMD700: Error opening rig.\n");
     return FALSE;
   }
+  else
+    return TRUE;	
 }
 
 void plugin_close_rig( void )

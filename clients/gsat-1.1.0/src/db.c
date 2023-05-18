@@ -85,7 +85,7 @@ void lookup_sat_db( void )
   widget = lookup_widget( mainwindow, "combo" );
   sat = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(widget)->entry));
   strncpy( satname, sat, 25 );
-  satname[ 26 ] = '\0';
+  satname[ 25 ] = '\0';
 
   strncpy(filename,getenv("HOME"),256);
   strcat(filename,"/.gsat.db");

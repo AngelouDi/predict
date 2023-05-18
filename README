@@ -6,13 +6,17 @@ SYSTEM REQUIREMENTS
 ===================
 This program requires ncurses version 4.2 or higher.  Earlier versions have
 been known to cause segmentation faults and/or odd display colors with this
-program.  ncurses may be obtained via:
+program.  ncurses may be obtained via anonymous FTP at:
 
-	https://www.gnu.org/software/ncurses/
+	ftp://ftp.invisible-island.net/ncurses/
 
+or via HTTPS:
 
-The Linux pthreads library is also required.  Both of these libraries are
-usually available in modern Linux distributions.
+	https://invisible-mirror.net/archives/ncurses/
+
+The Linux pthreads and Advanced Linux Sound Architecture (ALSA) libraries
+are also required.  These libraries are generally available in many modern
+Linux distributions.
 
 
 UNPACKING
@@ -22,7 +26,7 @@ is provided for all system users (such as /usr/src or /usr/local/src for
 Slackware Linux).  As root, move the tar file to such a directory and
 issue the command:
 
-	tar xvfz predict-2.2.4.tar.gz
+	tar xvfz predict-2.2.8.tar.gz
 
 to unpack the file.
 
@@ -44,10 +48,6 @@ other than /usr/local/bin is desired, invoke configure with the desired
 directory as an argument on the command line:
 
 	./configure /usr/bin
-
-NOTE: "configure" may stall if the system soundcard is in use.  Some
-window managers (sometimes KDE) take control of the soundcard, and prevent
-the configure script from opening /dev/dsp and checking its existence. 
 
 
 FIRST TIME USE
@@ -79,5 +79,5 @@ Happy Tracking!
 --
 John, KD2BD
 kd2bd@amsat.org
-March 2018
+July 2022
 

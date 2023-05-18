@@ -44,7 +44,7 @@ int plugin_open_rig( char * config )
 {
   char dummy[10];
   char *ptr;
-  char tty[10];
+  char tty[11];
   char mode[4];
   char filter[5];
   ushort volume;

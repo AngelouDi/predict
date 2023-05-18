@@ -362,7 +362,8 @@ typedef unsigned char transmem_block_t;
 
 /* Lock variable to protect the global data in the gettext implementation.  */
 #ifdef _LIBC
-__libc_rwlock_define_initialized (, _nl_state_lock)
+// __libc_rwlock_define_initialized (, _nl_state_lock)
+__libc_rwlock_define_initialized (nl_state_lock)
 #endif
 
 /* Checking whether the binaries runs SUID must be done and glibc provides

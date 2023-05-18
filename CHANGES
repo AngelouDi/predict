@@ -1,3 +1,111 @@
+Release 2.3.0:
+By John A. Magliacane <kd2bd@amsat.org> (04-Jul-2022):
+
+* PREDICT now includes mouse support (or touch screen support under a
+  Termux/Android environment).  All Main Menu options, satellite selections
+  and most program operations can now be controlled through a mouse.
+  New features make it possible to run PREDICT in Multi-Satellite Tracking
+  Mode, left click on any satellite displayed in the list, and be brought
+  directly into Single Satellite Tracking Mode for more detailed tracking
+  information on the chosen spacecraft.  A right click then returns the
+  user back to Multi-Satellite Tracking Mode. 
+
+* Vocalizer code has been integrated into PREDICT's mainline source.
+  Text-to-speech operations are now executed in separate threads
+  rather than forked background processes as was the practice in the
+  past.  Voice announcements in SingleTracking Mode can be initiated
+  by pressing the 'T' key.  Periodic announcements can be stopped by
+  pressing the 'S' key.
+
+* PREDICT's long promised satellite transponder database editing function
+  has finally been added, making it a simple matter for users to add,
+  modify, or delete up to ten transponder descriptions, uplink passbands,
+  downlinks, beacons or command links per satellite.
+
+* Improved transponder selection and sequencing in Single Satellite
+  Tracking Mode is now possible through newly added cursor keystroke
+  and mouse controls.
+
+* The handling of geographical coordinates in DMS format has been
+  improved.
+
+* The QTH and the manual Keplerian element line editing features
+  have been significantly improved.
+
+* A newly added -d command-line parameter allows support of an
+  alternate satellite transponder database file.
+
+* Approaching, receding, and TCA statements have been added to
+  Single Satellite Tracking Mode screens for satellites not having
+  transponder database entries.
+
+* The sun angle visibility threshold for the ISS was lowered further,
+  this time from -8.0 degrees to -6.0 degrees (Civil Twilight) to
+  match the many successful naked eye observations taken place at
+  this higher solar elevation angle.
+
+* The "alarm.wav" sound file used by the Vocalizer client that went
+  missing in v2.2.7 is back.
+
+* Several unused internal functions were removed.
+
+* The documentation has been updated.
+
+----------------------------------------------------------------------------
+
+Release 2.2.7:
+By John A. Magliacane <kd2bd@amsat.org> (12-Oct-2020):
+
+* Fixed the vocalizer build script to use bash rather than
+  the default system shell (which could be something else entirely).
+
+* Vocalizer now uses improved (faster and royality-free) speech
+  samples generated through https://ttsmp3.com/
+
+* Improved the keyboard handling to permit cursor and function
+  keys to be depressed without causing undesired program behavior.
+
+* Modified the degree symbol displayed after the Eclipse Depth angle
+  in Single Tracking Mode for better consistancy across a wider range
+  of terminals.
+
+* Since ISS visibility doesn't require a very dark sky, the sun angle
+  visibility threshold for the ISS was lowered from -12.0 degrees
+  (Nautical Twilight) to -8.0 degrees (between Nautical and Civil
+  Twilight).
+
+* Several additional display changes were made for improved operation
+  under Android platforms.
+
+* The kepupdate script is now installed by default.
+
+----------------------------------------------------------------------------
+
+Release 2.2.6:
+By John A. Magliacane <kd2bd@amsat.org> (20-May-2020):
+
+* The installer program has been replaced by a bash script that
+  configures, compiles, and installs PREDICT and several companion
+  client utility applications.
+
+* The SingleTrack and MultiTrack displays have been modified for
+  more consistent performance across a wider range of terminals.
+
+* PREDICT's "vocalizer" now employs the Advanced Linux Sound
+  Architecture (ALSA) environment instead of OSS in response
+  to recent changes in v5.6 and later Linux kernels.
+
+* The handling of geosynchronous and geostationary satellites
+  has been improved, but still needs to be used with caution.
+
+* 100 MHz normalized downlink Doppler shift information has been
+  added to all -p and -f command-line outputs.  
+
+* The documentation and the transponder database file have been
+  updated, and the format of the man page has been corrected.
+
+----------------------------------------------------------------------------
+
 Release 2.2.5:
 By John A. Magliacane <kd2bd@amsat.org> (05-May-2018):
 
@@ -11,6 +119,7 @@ By John A. Magliacane <kd2bd@amsat.org> (05-May-2018):
   (Thanks Joeal Subash)
 
 * Updated the documentation to reflect the changes. 
+
 ----------------------------------------------------------------------------
 
 Release 2.2.4:
@@ -24,6 +133,7 @@ By John A. Magliacane <kd2bd@amsat.org> (12-Mar-2018):
   by default.
 
 * Added <errno.h> header to gsat-1.1.0/src/callbacks.c
+
 ----------------------------------------------------------------------------
 
 Release 2.2.3:

@@ -2,7 +2,6 @@
 # Script to prepare for a clean distribution.
 #
 rm -f predict predict.h
-rm -f vocalizer/vocalizer.h vocalizer/vocalizer
 rm -f clients/samples/demo
 rm -f utils/moontracker/moontracker
 rm -f utils/geosat/geosat

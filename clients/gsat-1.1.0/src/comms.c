@@ -354,7 +354,7 @@ timeout_callback( gpointer data )
   widget = lookup_widget( mainwindow, "combo" );
   sat = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(widget)->entry));
   strncpy( satname, sat, 25 );
-  satname[ 26 ] = '\0';
+  satname[ 25 ] = '\0';
   if( azelgraph==TRUE) {
     widget = lookup_widget( dialog_azel_graph, "tx_azel_sat" );
     gtk_entry_set_text(GTK_ENTRY(widget),satname);

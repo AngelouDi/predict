@@ -1,288 +1,185 @@
 OSCAR-7
 7530
 No alat, alon
-Mode A Transponder
-145.850, 145.950
-29.500, 29.400
+Mode A (V/a) Transponder
+145.8500, 145.9500
+29.4000, 29.5000
+No weekly schedule
+No orbital schedule
+Mode B (U/v) Transponder
+432.1250, 432.1750
+145.9750, 145.9250
+No weekly schedule
+No orbital schedule
+10-Meter Beacon
+0.0000, 0.0000
+29.5020, 29.5020
+No weekly schedule
+No orbital schedule
+2-Meter Beacon
+0.0000, 0.0000
+145.9750, 145.9750
 No weekly schedule
 No orbital schedule
 end
-OSCAR-11
-14781
+XW-2A
+40903
 No alat, alon
-VHF-FM General Beacon
-0.0, 0.0
-145.825, 145.825
+Mode B (U/v) Transponder
+435.0300, 435.0500
+145.6850, 145.6650
 No weekly schedule
 No orbital schedule
-2400 MHz Mode S Beacon
-0.0, 0.0
-2401.500, 2401.500
-No weekly shedule
+9.6 / 19.2kbps GMSK Telemetry
+0.0000, 0.0000
+145.6400, 145.6400
+No weekly schedule
 No orbital schedule
-UHF-FM Engineering Beacon
-0.0, 0.0
-435.025, 435.025
+22 WPM CW Telemetry Beacon
+0.0000, 0.0000
+145.6600, 145.6600
 No weekly schedule
 No orbital schedule
 end
-PACSAT
-20439
+XW-2B
+40911
 No alat, alon
-Mode JD 1200 bps BPSK Channel A
-145.900, 145.900
-437.025, 437.025
+Mode B (U/v) Transponder
+435.0900, 435.1100
+145.7500, 145.7300
 No weekly schedule
 No orbital schedule
-Mode JD 1200 bps BPSK Channel B
-145.920, 145.920
-437.025, 437.025
+9.6 / 19.2kbps GMSK Telemetry
+0.0000, 0.0000
+145.7050, 145.7050
 No weekly schedule
 No orbital schedule
-Mode JD 1200 bps BPSK Channel C
-145.940, 145.940
-437.025, 437.025
-No weekly schedule
-No orbital schedule
-Mode JD 1200 bps BPSK Channel D
-145.960, 145.960
-437.025, 437.025
+22 WPM CW Telemetry Beacon
+0.0000, 0.0000
+145.7250, 145.7250
 No weekly schedule
 No orbital schedule
 end
-LUSAT
-20442
+XW-2C
+40906
 No alat, alon
-Mode JD 1200 bps BPSK Channel A
-145.840, 145.840
-437.150, 437.150
+Mode B (U/v) Transponder
+435.1500, 435.1700
+145.8150, 145.7950
 No weekly schedule
 No orbital schedule
-Mode JD 1200 bps BPSK Channel B
-145.860, 145.860
-437.150, 437.150
+9.6 / 19.2kbps GMSK Telemetry
+0.0000, 0.0000
+145.7700, 145.7700
 No weekly schedule
 No orbital schedule
-Mode JD 1200 bps BPSK Channel C
-145.880, 145.880
-437.150, 437.150
-No weekly schedule
-No orbital schedule
-Mode JD 1200 bps BPSK Channel D
-145.900, 145.900
-437.150, 437.150
-No weekly schedule
-No orbital schedule
-750-mW CW Beacon
-0.0, 0.0
-437.1245, 437.1245
+22 WPM CW Telemetry Beacon
+0.0000, 0.0000
+145.7900, 145.7900
 No weekly schedule
 No orbital schedule
 end
-OSCAR-27
-22825
+XW-2D
+40907
 No alat, alon
-Mode J FM Transponder
-145.850, 145.850
-436.795, 436.795
+Mode B (U/v) Transponder
+435.2300, 435.2100
+145.8600, 145.8800
+No weekly schedule
+No orbital schedule
+9.6 / 19.2kbps GMSK Telemetry
+0.0000, 0.0000
+145.8350, 145.8350
+No weekly schedule
+No orbital schedule
+22 WPM CW Telemetry Beacon
+0.0000, 0.0000
+145.8550, 145.8550
 No weekly schedule
 No orbital schedule
 end
-OSCAR-29
-24278
+XW-2E
+40909
 No alat, alon
-Mode JA Transponder
-145.900, 146.000
-435.900, 435.800
+Mode B (U/v) Transponder
+435.2700, 435.2300
+145.8800, 145.8600
 No weekly schedule
 No orbital schedule
-Mode JD Channel A
-145.850, 145.850
-435.910, 435.910
+9.6 / 19.2kbps GMSK Telemetry
+0.0000, 0.0000
+145.8350, 145.8350
 No weekly schedule
 No orbital schedule
-Mode JD Channel B
-145.870, 145.870
-435.910, 435.910
-No weekly schedule
-No orbital schedule
-Mode JD Channel C
-145.910, 145.910
-435.910, 435.910
+22 WPM CW Telemetry Beacon
+0.0000, 0.0000
+145.8550, 145.8550
 No weekly schedule
 No orbital schedule
 end
-RS-15
-23439
+XW-2F
+40910
 No alat, alon
-Mode A Transponder
-145.858, 145.898
-29.354, 29.394
+Mode B (U/v) Transponder
+435.3300, 435.3500
+146.0000, 145.9800
+No weekly schedule
+No orbital schedule
+9.6 / 19.2kbps GMSK Telemetry
+0.0000, 0.0000
+145.9550, 145.9550
+No weekly schedule
+No orbital schedule
+22 WPM CW Telemetry Beacon
+0.0000, 0.0000
+145.9750, 145.9750
 No weekly schedule
 No orbital schedule
 end
-CUTE-1
-27844
+FalconSAT-3
+30776
 No alat, alon
-CW Downlink (100 mW)
-0.0, 0.0
-436.8375, 436.8375
-No weekly schedule
-No orbital schedule
-Digital Downlink 1200 bps AX.25 or SRLL data (350 mW)
-0.0, 0.0
-437.4700, 437.4700
+9600 bps FSK Transponder
+145.8400, 145.8400
+435.1030, 435.1030
 No weekly schedule
 No orbital schedule
 end
-GO-32
-25397
+CAS-4A
+42761
 No alat, alon
-9600 bps FSK Digital Transponder - Channel 1
-145.850, 145.850
-435.225, 435.225
+Mode B (U/v) Transponder
+435.2100, 435.2300
+145.8800, 145.8600
 No weekly schedule
 No orbital schedule
-9600 bps FSK Digital Transponder - Channel 2
-145.890, 145.890
-435.225, 435.225
+4800 bps GMSK Telemetry
+0.0000, 0.0000
+145.8350, 145.8350
 No weekly schedule
 No orbital schedule
-9600 bps FSK Digital Transponder - Channel 3
-145.930, 145.930
-435.225, 435.225
-No weekly schedule
-No orbital schedule
-9600 bps FSK Digital Transponder - Channel 4
-1269.700, 1269.700
-435.225, 435.225
-No weekly schedule
-No orbital schedule
-9600 bps FSK Digital Transponder - Channel 5
-1269.800, 1269.800
-435.225, 435.225
+CW Beacon
+0.0000, 0.0000
+145.8550, 145.8550
 No weekly schedule
 No orbital schedule
 end
-HAMSAT
-28650
+CAS-4B
+42759
 No alat, alon
-Mode U/V Linear Transponder
-435.230, 435.280
-145.870, 145.930
+Mode B (U/v) Transponder
+435.2700, 435.2900
+145.9350, 145.9150
 No weekly schedule
 No orbital schedule
-Beacon - Unmodulated Carrier
-0.0, 0.0
-145.936, 145.936
+4800 bps GMSK Telemetry
+0.0000, 0.0000
+145.8900, 145.8900
 No weekly schedule
 No orbital schedule
-Telemetry Downlink
-0.0, 0.0
-145.860, 145.860
-No weekly schedule
-no orbital schedule
-end
-NOAA-14
-23455
-No alat, alon
-APT Downlink
-0.0, 0.0
-137.620, 137.620
-No weekly schedule
-No orbital schedule
-HRPT Downlink
-0.0, 0.0
-1707.0, 1707.0
-No weekly schedule
-No orbital schedule
-end
-NOAA-15
-25338
-No alat, alon
-APT Downlink
-0.0, 0.0
-137.500, 137.500
-No weekly schedule
-No orbital schedule
-HRPT Downlink
-0.0, 0.0
-1702.5, 1702.5
-No weekly schedule
-No orbital schedule
-end
-NOAA-17
-27453
-No alat, alon
-APT Downlink
-0.0, 0.0
-137.620, 137.620
-No weekly schedule
-No orbital schedule
-HRPT Downlink
-0.0, 0.0
-1707.0, 1707.0
-No weekly schedule
-No orbital schedule
-end
-UARS
-21701
-No alat, alon
-No transponder name
-0.0, 0.0
-0.0, 0.0
-No weekly schedule
-No orbital schedule
-end
-HUBBLE
-20580
-No alat, alon
-No transponder name
-0.0, 0.0
-0.0, 0.0
-No weekly schedule
-No orbital schedule
-end
-ISS
-25544
-No alat, alon
-ARISS VHF Packet Radio Mailbox
-145.990, 145.990
-145.800, 145.800
-No weekly schedule
-No orbital schedule
-Region 2/3 ARISS VHF-FM Voice
-144.490, 144.490
-145.800, 145.800
-No weekly schedule
-No orbital schedule
-Region 1 ARISS VHF-FM Voice
-145.200, 145.200
-145.800, 145.800
-No weekly schedule
-No orbital schedule
-ARISS UHF-FM Voice
-437.500, 437.500
-437.500, 437.500
-No weekly schedule
-No orbital schedule
-Crossband Repeater
-437.800, 437.800
-145.800, 145.800
-No weekly schedule
-No orbital schedule
-TsUP FM Voice Downlink
-0.0, 0.0
-143.625, 143.625
-No weekly schedule
-No orbital schedule
-end
-PCSAT
-26931
-No alat, alon
-1200 baud AFSK APRS Digipeater (PCSAT-1)
-145.827, 145.827
-145.827, 145.827
+CW Beacon
+0.0000, 0.0000
+145.9100, 145.9100
 No weekly schedule
 No orbital schedule
 end
@@ -290,108 +187,210 @@ OSCAR-50
 27607
 No alat, alon
 Mode V/U FM Repeater (67 Hz PL)
-145.850, 145.850
-436.800, 436.800
+145.8500, 145.8500
+436.7950, 436.7950
 No weekly schedule
 No orbital schedule
 end
-RS-20
-27560
+OSCAR-73
+39444
 No alat, alon
-VHF CW Beacon
-0.0, 0.0
-145.828, 145.828
+Mode U/V Linear Transponder
+435.1300, 435.1500
+145.9700, 145.9500
+No weekly schedule
+No orbital schedule
+1200 bps BPSK Beacon
+0.0000, 0.0000
+145.9350, 145.9350
+No weekly schedule
+No orbital schedule
+end
+OSCAR-91
+43017
+No alat, alon
+Mode U/V FM Transponder (67.0 Hz PL)
+435.2500, 435.2500
+145.9600, 145.9600
+No weekly schedule
+No orbital schedule
+end
+OSCAR-92
+43137
+No alat, alon
+Mode U/V FM Transponder (67.0 Hz PL)
+435.3500, 435.3500
+145.8800, 145.8800
+No weekly schedule
+No orbital schedule
+Mode L/V FM Transponder (67.0 Hz PL)
+1267.3500, 1267.3500
+145.8800, 145.8800
+No weekly schedule
+No orbital schedule
+end
+OSCAR-95
+43770
+No alat, alon
+Mode U/V FM Transponder (67.0 Hz PL)
+435.3000, 435.3000
+145.9200, 145.9200
+No weekly schedule
+No orbital schedule
+Mode L/V FM Transponder (67.0 Hz PL)
+1267.3000, 1267.3000
+145.9200, 145.9200
+No weekly schedule
+No orbital schedule
+end
+OSCAR-97
+43803
+No alat, alon
+Mode U/v Linear Transponder
+435.1000, 435.1200
+145.8750, 145.8550
+No weekly schedule
+No orbital schedule
+1200 bps BPSK Data Downlink
+0.0000, 0.0000
+145.8400, 145.8400
+No weekly schedule
+No orbital schedule
+end
+OSCAR-99
+43937
+No alat, alon
+Mode V/U Linear Transponder
+145.9000, 145.9300
+435.9100, 435.8800
+No weekly schedule
+No orbital schedule
+Beacon 1
+0.0000, 0.0000
+435.9000, 435.9000
+No weekly schedule
+No orbital schedule
+Beacon 2
+0.0000, 0.0000
+437.0750, 437.0750
+No weekly schedule
+No orbital schedule
+end
+NO-104
+44354
+No alat, alon
+SSTV and PSK31
+29.4815, 29.4815
+435.3500, 435.3500
+No weekly schedule
+No orbital schedule
+Telemetry, APRS, and DTMF/Voice Downlink
+145.8250, 145.8250
+145.8250, 145.8250
+No weekly schedule
+No orbital schedule
+end
+HO-113
+50466
+No alat, alon
+Mode V/u Linear Transponder
+145.8850, 145.8550
+435.1650, 435.1950
 No weekly schedule
 No orbital schedule
 UHF CW Beacon
-0.0, 0.0
-435.319,435.319
+0.0000, 0.0000
+435.5752, 435.5752
+No weekly schedule
+No orbital schedule
+4800 bps GMSK Telemetry Beacon
+0.0000, 0.0000
+435.7250, 435.7250
 No weekly schedule
 No orbital schedule
 end
-RS-22
-27939
+RS-44
+44909
 No alat, alon
-UHF CW Beacon
-0.0, 0.0
-435.3520, 435.3520
+Mode V/U Linear Transponder
+145.9350, 145.9950
+435.6700, 435.6100
+No weekly schedule
+No orbital schedule
+CW Beacon
+0.0000, 0.0000
+435.6050, 435.6050
 No weekly schedule
 No orbital schedule
 end
-ECHO
-28375
+NOAA-18
+28654
 No alat, alon
-Mode V/U FM Repeater (67 Hz PL)
-145.920, 145.920
-435.300, 435.300
+APT Downlink
+0.0000, 0.0000
+137.9125, 137.9125
 No weekly schedule
 No orbital schedule
-Mode U/S FM Repeater (67 Hz PL)
-145.920, 145.920
-2401.200, 2401.200
-No weekly schedule
-No orbital schedule
-Mode V/U FM Repeater (QRP - No PL)
-145.880, 145.880
-435.300, 435.300
-No weekly schedule
-No orbital schedule
-Mode L/U FM Repeater (67 Hz PL)
-1268.700, 1268.700
-435.300, 435.300
-No weekly schedule
-No orbital schedule
-Mode L/S FM Repeater (67 Hz PL)
-1268.700, 1268.700
-2401.200, 2401.200
-No weekly schedule
-No orbital schedule
-Mode V/U 9600 bps AX.25 Mailbox
-145.860, 145.860
-435.150, 435.150
-No weekly schedule
-No orbital schedule
-Mode V/S 38.4 kbps AX.25 Mailbox
-145.860, 145.860
-2401.200, 2401.200
-No weekly schedule
-No orbital schedule
-Mode L/U 9600 bps AX.25 Mailbox
-1268.700, 1268.700
-435.150, 435.150
-No weekly schedule
-No orbital schedule
-Mode L/S 38.4 kbps AX.25 Mailbox
-1268.700, 1268.700
-2401.200, 2401.200
+HRPT Downlink
+0.0000, 0.0000
+1707.0000, 1707.0000
 No weekly schedule
 No orbital schedule
 end
-OSCAR-57
-27848
+NOAA-19
+33591
 No alat, alon
-Mode U CW Beacon
-0.0, 0.0
-436.8475, 436.8475
+APT Downlink
+0.0000, 0.0000
+137.1000, 137.1000
 No weekly schedule
 No orbital schedule
-Mode U Telemetry Beacon (1200 BPS, AFSK)
-0.0, 0.0
-437.4900, 437.4900
+HRPT Downlink
+0.0000, 0.0000
+1698.0000, 1698.0000
 No weekly schedule
 No orbital schedule
 end
-OSCAR-58
-28895
+HUBBLE
+20580
 No alat, alon
-Mode U CW Beacon
-0.0, 0.0
-437.4650, 437.4650
+end
+ISS
+25544
+No alat, alon
+Crossband FM Voice Repeater (67.0 Hz PL)
+145.9900, 145.9900
+437.8000, 437.8000
 No weekly schedule
 No orbital schedule
-Mode U Telemetry Beacon (1200 BPS, AFSK)
-0.0, 0.0
-437.3450, 437.3450
+VHF Worldwide APRS Digipeater
+145.8250, 145.8250
+145.8250, 145.8250
+No weekly schedule
+No orbital schedule
+SSTV Downlink
+0.0000, 0.0000
+145.8000, 145.8000
+No weekly schedule
+No orbital schedule
+UHF Worldwide APRS Digipeater
+437.5500, 437.5500
+437.5500, 437.5500
+No weekly schedule
+No orbital schedule
+Region 1 ARISS VHF-FM Crew Contact
+145.2000, 145.2000
+145.8000, 145.8000
+No weekly schedule
+No orbital schedule
+Region 2/3 ARISS VHF-FM Crew Contact
+144.4900, 144.4900
+145.8000, 145.8000
+No weekly schedule
+No orbital schedule
+TsUP FM Voice Downlink
+0.0000, 0.0000
+143.6250, 143.6250
 No weekly schedule
 No orbital schedule
 end
