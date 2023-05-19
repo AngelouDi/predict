@@ -30,6 +30,7 @@
 #include <assert.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <unistd.h>
@@ -2439,275 +2440,300 @@ char *predict_name;
 			exit (-1);
 
 		buf[n]=0;
-		ok=0;
-
-		/* Parse the command in the datagram */
-		if ((strncmp("GET_SAT",buf,7)==0) && (strncmp("GET_SAT_POS",buf,11)!=0))
-		{
-			/* Parse "buf" for satellite name */
-			for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
-
-			for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<25; j++)
-				satname[j-i]=buf[j];
-
-			satname[j-i]=0;
-
-			/* Do a simple search for the matching satellite name */
-
-			for (i=0; i<24; i++)
+		ok=1;
+		pid_t child_pid, wpid;	
+		int child_status;
+		child_pid = fork();
+		if (child_pid == 0){
+	
+			/* Parse the command in the datagram */
+			if ((strncmp("GET_SAT",buf,7)==0) && (strncmp("GET_SAT_POS",buf,11)!=0))
 			{
-				if ((strncmp(satname,sat[i].name,25)==0) || (atol(satname)==sat[i].catnum))
+				/* Parse "buf" for satellite name */
+				for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
+	
+				for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<25; j++)
+					satname[j-i]=buf[j];
+	
+				satname[j-i]=0;
+	
+				/* Do a simple search for the matching satellite name */
+	
+				for (i=0; i<24; i++)
 				{
-					nxtevt=(long)rint(86400.0*(nextevent[i]+3651.0));
-
-					/* Build text buffer with satellite data */
-					sprintf(buff,"%s\n%-7.2f\n%+-6.2f\n%-7.2f\n%+-6.2f\n%ld\n%-7.2f\n%-7.2f\n%-7.2f\n%-7.2f\n%u\n%c\n%-7.2f\n%-7.2f\n%-7.2f\n",sat[i].name,long_array[i],lat_array[i],az_array[i],el_array[i],nxtevt,footprint_array[i],range_array[i],altitude_array[i],velocity_array[i],orbitnum_array[i],visibility_array[i],phase_array[i],eclipse_depth_array[i],squint_array[i]);
-
-					/* Send buffer back to the client that sent the request */
-					sendto(sock,buff,strlen(buff),0,(struct sockaddr*)&fsin,sizeof(fsin));
-					ok=1;
-					break;
+					if ((strncmp(satname,sat[i].name,25)==0) || (atol(satname)==sat[i].catnum))
+					{
+						nxtevt=(long)rint(86400.0*(nextevent[i]+3651.0));
+	
+						/* Build text buffer with satellite data */
+						sprintf(buff,"%s\n%-7.2f\n%+-6.2f\n%-7.2f\n%+-6.2f\n%ld\n%-7.2f\n%-7.2f\n%-7.2f\n%-7.2f\n%u\n%c\n%-7.2f\n%-7.2f\n%-7.2f\n",sat[i].name,long_array[i],lat_array[i],az_array[i],el_array[i],nxtevt,footprint_array[i],range_array[i],altitude_array[i],velocity_array[i],orbitnum_array[i],visibility_array[i],phase_array[i],eclipse_depth_array[i],squint_array[i]);
+	
+						/* Send buffer back to the client that sent the request */
+						sendto(sock,buff,strlen(buff),0,(struct sockaddr*)&fsin,sizeof(fsin));
+						ok=0;
+						break;
+					}
 				}
 			}
-		}
-
-		if (strncmp("GET_TLE",buf,7)==0)
-		{
-			/* Parse "buf" for satellite name */
-			for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
-
-			for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<25; j++)
-				satname[j-i]=buf[j];
-
-			satname[j-i]=0;
-
-			/* Do a simple search for the matching satellite name */
-
-			for (i=0; i<24; i++)
+	
+			if (strncmp("GET_TLE",buf,7)==0)
 			{
-				if ((strncmp(satname,sat[i].name,25)==0) || (atol(satname)==sat[i].catnum))
+				/* Parse "buf" for satellite name */
+				for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
+	
+				for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<25; j++)
+					satname[j-i]=buf[j];
+	
+				satname[j-i]=0;
+	
+				/* Do a simple search for the matching satellite name */
+	
+				for (i=0; i<24; i++)
 				{
-					/* Build text buffer with satellite data */
-
-					sprintf(buff,"%s\n%s\n%s\n",sat[i].name,sat[i].line1, sat[i].line2);
-					/* Send buffer back to the client that sent the request */
-					sendto(sock,buff,strlen(buff),0,(struct sockaddr*)&fsin,sizeof(fsin));
-					ok=1;
-					break;
+					if ((strncmp(satname,sat[i].name,25)==0) || (atol(satname)==sat[i].catnum))
+					{
+						/* Build text buffer with satellite data */
+	
+						sprintf(buff,"%s\n%s\n%s\n",sat[i].name,sat[i].line1, sat[i].line2);
+						/* Send buffer back to the client that sent the request */
+						sendto(sock,buff,strlen(buff),0,(struct sockaddr*)&fsin,sizeof(fsin));
+						ok=0;
+						break;
+					}
 				}
 			}
-		}
-
-		if (strncmp("GET_DOPPLER",buf,11)==0)
-		{
-			/* Parse "buf" for satellite name */
-			for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
-
-			for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<25; j++)
-				satname[j-i]=buf[j];
-
-			satname[j-i]=0;
-
-			/* Do a simple search for the matching satellite name */
-
-			for (i=0; i<24; i++)
+	
+			if (strncmp("GET_DOPPLER",buf,11)==0)
 			{
-				if ((strncmp(satname,sat[i].name,25)==0) || (atol(satname)==sat[i].catnum))
+				/* Parse "buf" for satellite name */
+				for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
+	
+				for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<25; j++)
+					satname[j-i]=buf[j];
+	
+				satname[j-i]=0;
+	
+				/* Do a simple search for the matching satellite name */
+	
+				for (i=0; i<24; i++)
 				{
-					/* Get Normalized (100 MHz)
-					   Doppler shift for sat[i] */
-
-					sprintf(buff,"%f\n",doppler[i]);
-
-					/* Send buffer back to client who sent request */
-					sendto(sock,buff,strlen(buff),0,(struct sockaddr*)&fsin,sizeof(fsin));
-					ok=1;
-					break;
+					if ((strncmp(satname,sat[i].name,25)==0) || (atol(satname)==sat[i].catnum))
+					{
+						/* Get Normalized (100 MHz)
+						Doppler shift for sat[i] */
+	
+						sprintf(buff,"%f\n",doppler[i]);
+	
+						/* Send buffer back to client who sent request */
+						sendto(sock,buff,strlen(buff),0,(struct sockaddr*)&fsin,sizeof(fsin));
+						ok=0;
+						break;
+					}
 				}
 			}
-		}
-
-		if (strncmp("GET_LIST",buf,8)==0)
-		{
-			buff[0]=0;
-
-			for (i=0; i<24; i++)
+	
+			if (strncmp("GET_LIST",buf,8)==0)
 			{
-				if (sat[i].name[0]!=0)
-					strcat(buff,sat[i].name);
-
-				strcat(buff,"\n");
-			}
-
-			sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-			ok=1;
-		}
-
-		if (strncmp("RELOAD_TLE",buf,10)==0)
-		{
-			buff[0]=0;
-			sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-			reload_tle=1;
-			ok=1;
-		}
-
-		if (strncmp("GET_SUN",buf,7)==0)
-		{
-			buff[0]=0;
-			sprintf(buff,"%-7.2f\n%+-6.2f\n%-7.2f\n%-7.2f\n%-7.2f\n",sun_azi, sun_ele, sun_lat, sun_lon, sun_ra);
-			sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-			ok=1;
-		}
-
-		if (strncmp("GET_MOON",buf,8)==0)
-		{
-			buff[0]=0;
-			sprintf(buff,"%-7.2f\n%+-6.2f\n%-7.2f\n%-7.2f\n%-7.2f\n",moon_az, moon_el, moon_dec, moon_gha, moon_ra);
-			sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-			ok=1;
-		}
-
-		if (strncmp("GET_MODE",buf,8)==0)
-		{
-			sendto(sock,tracking_mode,strlen(tracking_mode),0,(struct sockaddr *)&fsin,sizeof(fsin));
-			ok=1;
-		}
-
-		if (strncmp("GET_VERSION",buf,11)==0)
-		{
-			buff[0]=0;
-			sprintf(buff,"%s\n",version);
-			sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-			ok=1;
-		}
-
-		if (strncmp("GET_QTH",buf,7)==0)
-		{
-			buff[0]=0;
-			sprintf(buff,"%s\n%g\n%g\n%d\n",qth.callsign, qth.stnlat, qth.stnlong, qth.stnalt);
-			sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-			ok=1;
-		}
-
-		if (strncmp("GET_TIME$",buf,9)==0)
-		{
-			buff[0]=0;
-			t=time(NULL);
-			sprintf(buff,"%s",asctime(gmtime(&t)));
-
-			if (buff[8]==32)
-				buff[8]='0';
-
-			sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-			buf[0]=0;
-			ok=1;
-		}
-
-		if (strncmp("GET_TIME",buf,8)==0)
-		{
-			buff[0]=0;
-			t=time(NULL);
-			sprintf(buff,"%lu\n",(unsigned long)t);
-			sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-			ok=1;
-		}
-
-		if (strncmp("GET_SAT_POS",buf,11)==0)
-		{
-			/* Parse "buf" for satellite name and arguments */
-			for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
-
-			for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<49; j++)
-				satname[j-i]=buf[j];
-
-			satname[j-i]=0;
-
-			/* Send request to predict with output
-			   directed to a temporary file under /tmp */
-
-			strcpy(tempname,"/tmp/XXXXXX\0");
-			i=mkstemp(tempname);
-
-			sprintf(buff,"%s -f %s -t %s -q %s -o %s\n",predict_name,satname,tlefile,qthfile,tempname);
-			system(buff);
-
-			/* Append an EOF marker (CNTRL-Z) to the end of file */
-
-			fd=fopen(tempname,"a");
-			fprintf(fd,"%c\n",26);  /* Control-Z */
-			fclose(fd);
-
-			buff[0]=0;
-
-			/* Send the file to the client */
-
-			fd=fopen(tempname,"rb");
-
-			fgets(buff,80,fd);
-
-			do
-			{
+				buff[0]=0;
+	
+				for (i=0; i<24; i++)
+				{
+					if (sat[i].name[0]!=0)
+						strcat(buff,sat[i].name);
+	
+					strcat(buff,"\n");
+				}
+	
 				sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-				fgets(buff,80,fd);
-				/* usleep(2);  if needed (for flow-control) */
-
-			} while (feof(fd)==0);
-
-			fclose(fd);
-			unlink(tempname);
-			close(i);
-			ok=1;
-		}
-
-		if (strncmp("PREDICT",buf,7)==0)
-		{
-			/* Parse "buf" for satellite name and arguments */
-			for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
-
-			for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<49; j++)
-				satname[j-i]=buf[j];
-
-			satname[j-i]=0;
-
-			/* Send request to predict with output
-			   directed to a temporary file under /tmp */
-
-			strcpy(tempname,"/tmp/XXXXXX\0");
-			i=mkstemp(tempname);
-
-			sprintf(buff,"%s -p %s -t %s -q %s -o %s\n",predict_name, satname,tlefile,qthfile,tempname);
-			system(buff);
-
-			/* Append an EOF marker (CNTRL-Z) to the end of file */
-
-			fd=fopen(tempname,"a");
-			fprintf(fd,"%c\n",26);  /* Control-Z */
-			fclose(fd);
-
-			buff[0]=0;
-
-			/* Send the file to the client */
-
-			fd=fopen(tempname,"rb");
-
-			fgets(buff,80,fd);
-
-			do
+				ok=0;
+			}
+	
+			if (strncmp("RELOAD_TLE",buf,10)==0)
 			{
+				buff[0]=0;
 				sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
-				fgets(buff,80,fd);
-				/* usleep(2);  if needed (for flow-control) */
+				reload_tle=1;
+				ok=0;
+			}
+	
+			if (strncmp("GET_SUN",buf,7)==0)
+			{
+				buff[0]=0;
+				sprintf(buff,"%-7.2f\n%+-6.2f\n%-7.2f\n%-7.2f\n%-7.2f\n",sun_azi, sun_ele, sun_lat, sun_lon, sun_ra);
+				sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
+				ok=0;
+			}
+	
+			if (strncmp("GET_MOON",buf,8)==0)
+			{
+				buff[0]=0;
+				sprintf(buff,"%-7.2f\n%+-6.2f\n%-7.2f\n%-7.2f\n%-7.2f\n",moon_az, moon_el, moon_dec, moon_gha, moon_ra);
+				sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
+				ok=0;
+			}
+	
+			if (strncmp("GET_MODE",buf,8)==0)
+			{
+				sendto(sock,tracking_mode,strlen(tracking_mode),0,(struct sockaddr *)&fsin,sizeof(fsin));
+				ok=0;
+			}
+	
+			if (strncmp("GET_VERSION",buf,11)==0)
+			{
+				buff[0]=0;
+				sprintf(buff,"%s\n",version);
+				sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
+				ok=0;
+			}
+	
+			if (strncmp("GET_QTH",buf,7)==0)
+			{
+				buff[0]=0;
+				sprintf(buff,"%s\n%g\n%g\n%d\n",qth.callsign, qth.stnlat, qth.stnlong, qth.stnalt);
+				sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
+				ok=0;
+			}
+	
+			if (strncmp("GET_TIME$",buf,9)==0)
+			{
+				buff[0]=0;
+				t=time(NULL);
+				sprintf(buff,"%s",asctime(gmtime(&t)));
+	
+				if (buff[8]==32)
+					buff[8]='0';
+	
+				sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
+				buf[0]=0;
+				ok=0;
+			}
+	
+			if (strncmp("GET_TIME",buf,8)==0)
+			{
+				buff[0]=0;
+				t=time(NULL);
+				sprintf(buff,"%lu\n",(unsigned long)t);
+				sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
+				ok=0;
+			}
+	
+			if (strncmp("GET_SAT_POS",buf,11)==0)
+			{
+				/* Parse "buf" for satellite name and arguments */
+				for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
+	
+				for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<49; j++)
+					satname[j-i]=buf[j];
+	
+				satname[j-i]=0;
+	
+				/* Send request to predict with output
+				directed to a temporary file under /tmp */
+	
+				strcpy(tempname,"/tmp/XXXXXX\0");
+				i=mkstemp(tempname);
 
-			} while (feof(fd)==0);
 
-			fclose(fd);
-			unlink(tempname);
-			close(i);
-			ok=1;
+				pid_t child2_pid, wpid2;
+				int child2_status;
+				child2_pid = fork();
+				if(child2_pid == 0){
+					//execlp("touch", "touch", "/tmp/shit", NULL);
+					execlp(predict_name, predict_name, "-f", satname, "-t", tlefile, "-q", qthfile, "-o", tempname, NULL);	
+				}
+				else{
+					while((wpid2 = wait(&child2_status)) > 0);
+		
+					/* Append an EOF marker (CNTRL-Z) to the end of file */
+		
+					fd=fopen(tempname,"a");
+					fprintf(fd,"%c\n",26);  /* Control-Z */
+					fclose(fd);
+		
+					buff[0]=0;
+		
+					/* Send the file to the client */
+		
+					fd=fopen(tempname,"rb");
+		
+					fgets(buff,80,fd);
+		
+					do
+					{
+						sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
+						fgets(buff,80,fd);
+						/* usleep(2);  if needed (for flow-control) */
+		
+					} while (feof(fd)==0);
+		
+					fclose(fd);
+					unlink(tempname);
+					close(i);
+					ok=0;
+				}
+			}
+	
+			if (strncmp("PREDICT",buf,7)==0)
+			{
+				/* Parse "buf" for satellite name and arguments */
+				for (i=0; buf[i]!=32 && buf[i]!=0 && i<39; i++);
+	
+				for (j=++i; buf[j]!='\n' && buf[j]!=0 && (j-i)<49; j++)
+					satname[j-i]=buf[j];
+	
+				satname[j-i]=0;
+	
+				/* Send request to predict with output
+				directed to a temporary file under /tmp */
+	
+				strcpy(tempname,"/tmp/XXXXXX\0");
+				i=mkstemp(tempname);
+	
+				pid_t child2_pid, wpid2;
+				int child2_status;
+				child2_pid = fork();
+				if(child2_pid == 0){
+					//execlp("touch", "touch", "/tmp/shit", NULL);
+					execlp(predict_name, predict_name, "-p", satname, "-t", tlefile, "q", qthfile, "-o", tempname, NULL);	
+				}
+				else{
+					while((wpid2 = wait(&child2_status)) > 0);
+	
+					/* Append an EOF marker (CNTRL-Z) to the end of file */
+		
+					fd=fopen(tempname,"a");
+					fprintf(fd,"%c\n",26);  /* Control-Z */
+					fclose(fd);
+		
+					buff[0]=0;
+		
+					/* Send the file to the client */
+		
+					fd=fopen(tempname,"rb");
+		
+					fgets(buff,80,fd);
+		
+					do
+					{
+						sendto(sock,buff,strlen(buff),0,(struct sockaddr *)&fsin,sizeof(fsin));
+						fgets(buff,80,fd);
+						/* usleep(2);  if needed (for flow-control) */
+		
+					} while (feof(fd)==0);
+		
+					fclose(fd);
+					unlink(tempname);
+					close(i);
+					ok=0;
+				}
+			}
+			exit(ok);	
 		}
-
-		if (ok==0)
-			sendto(sock,"Huh?\n",5,0,(struct sockaddr *)&fsin,sizeof(fsin));
+		else{
+			while((wpid = wait(&child_status)) > 0);
+			if (child_status!=0)
+				sendto(sock,"Huh?\n",5,0,(struct sockaddr *)&fsin,sizeof(fsin));
+		}
 	} 	
 }
 
@@ -2723,7 +2749,8 @@ void Banner()
 	mvprintw(3,18,"                                           ");
 	mvprintw(4,18,"         --== PREDICT  v%s ==--         ",version);
 	mvprintw(5,18,"   Released by John A. Magliacane, KD2BD   ");
-	mvprintw(6,18,"                 July 2022                 ");
+	mvprintw(5,18,"   Maintained by Angelou Dimitris, SV9TAT  ");
+	mvprintw(6,18,"                May 2023                   ");
 	mvprintw(7,18,"                                           ");
 }
 
