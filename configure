@@ -7,7 +7,7 @@
 #                ie: ./configure /usr/bin                   #
 #############################################################
 #    Written by John A. Magliacane, KD2BD on 12-Apr-2020    #
-#                Last updated on 19-Jul-2022                #
+#                Last updated on 23-May-2023                #
 #############################################################
 
 version=$(cat .version)
@@ -35,7 +35,8 @@ echo -e "                  \e[41m                                           \e[4
 echo -e "                  \e[41m         --== PREDICT  v$version ==--         \e[44m"
 
 echo -e "                  \e[41m   Released by John A. Magliacane, KD2BD   \e[44m"
-echo -e "                  \e[41m                 July 2022                 \e[44m"
+echo -e "                  \e[41m   Maintained by Angelou Dimitrios, SV9TAT \e[44m"
+echo -e "                  \e[41m                 May 2023                  \e[44m"
 
 echo -e "                  \e[41m                                           \e[44m"
 
